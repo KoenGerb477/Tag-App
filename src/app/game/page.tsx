@@ -98,11 +98,8 @@ export default function Game() {
   const handleLogout = async () => {
     try {
       await signOut(auth);
-      console.log("User logged out successfully");
       router.push("/"); // Redirect to the home page after logging out
-    } catch (error) {
-      console.error("Error logging out: ", error);
-    }
+    } catch (error) {}
   };
 
   const handlePlayerClick = (index: number) => {

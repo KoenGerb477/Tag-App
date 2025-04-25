@@ -58,17 +58,13 @@ export default function HomePage() {
         gamePin: "",
       });
       router.push("/join"); // Redirect to join page after successful sign up
-    } catch (error) {
-      console.error("Error signing up: ", error);
-    }
+    } catch (error) {}
   };
 
   const handleSignIn = async () => {
     try {
       await signInWithEmailAndPassword(auth, email, password); // Log in user with email and password
-    } catch (error) {
-      console.error("Error signing in: ", error);
-    }
+    } catch (error) {}
   };
 
   return (

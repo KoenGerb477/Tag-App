@@ -43,7 +43,6 @@ export default function Home() {
     if (userDoc.exists()) {
       return userDoc.data().name;
     } else {
-      console.log("No such document!");
       return "";
     }
   }
@@ -55,7 +54,6 @@ export default function Home() {
     if (userDoc.exists()) {
       return userDoc.data().inGame;
     } else {
-      console.log("No such document!");
       return false;
     }
   }
@@ -72,9 +70,7 @@ export default function Home() {
         // Redirect to the game page
         router.push(`/lobby`);
       }
-    } catch (error) {
-      console.log("Error creating the game: ", error);
-    }
+    } catch (error) {}
   };
 
   // Handle joining an existing game
