@@ -60,17 +60,15 @@ export default function Home() {
 
   // Handle creating a new game
   const handleCreateGame = async () => {
-    try {
-      if (user) {
-        const newPin = await createGame();
+    if (user) {
+      const newPin = await createGame();
 
-        // Automatically join the newly created game
-        await joinGame(newPin, user.uid, username);
+      // Automatically join the newly created game
+      await joinGame(newPin, user.uid, username);
 
-        // Redirect to the game page
-        router.push(`/lobby`);
-      }
-    } catch (error) {}
+      // Redirect to the game page
+      router.push(`/lobby`);
+    }
   };
 
   // Handle joining an existing game
