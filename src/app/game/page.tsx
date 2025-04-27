@@ -44,6 +44,8 @@ export default function Game() {
   const router = useRouter();
   const [openPlayerIndex, setOpenPlayerIndex] = useState<number | null>(null);
   const [tagToggler, setTagToggler] = useState(false);
+  const [startDate, setStartDate] = useState<Date>();
+  const [endDate, setEndDate] = useState<Date>();
 
   useEffect(() => {
     const fetchPlayers = async () => {
@@ -57,9 +59,8 @@ export default function Game() {
 
   useEffect(() => {
     if (!user) {
-      router.push("/"); // Redirect to sign-in if not logged in
+      router.push("/");
     } else {
-      // Fetch the user's name and game status (including pin)
       const fetchUserData = async () => {
         const gamePin = await getUserGamePin(user.uid);
         setPin(gamePin);
@@ -71,6 +72,24 @@ export default function Game() {
       fetchUserData();
     }
   }, [user, router]);
+
+  useEffect(() => {
+    const getDateData = async () => {
+      if (!pin) return;
+
+      const gameRef = doc(db, "games", pin);
+      const gameDoc = await getDoc(gameRef);
+      if (gameDoc.exists()) {
+        const startDate = gameDoc.data().startDate.toDate();
+        const endDate = gameDoc.data().endDate.toDate();
+
+        setStartDate(startDate);
+        setEndDate(endDate);
+      }
+    };
+
+    getDateData();
+  }, [pin]);
 
   // Fetch the user's game pin from Firestore
   async function getUserGamePin(userId: string) {
@@ -194,7 +213,6 @@ export default function Game() {
   };
 
   const getTimeIt = (index: number) => {
-    console.log(players[index].name);
     if (players[index].status == "it") {
       const currentTime = new Date();
 
@@ -222,65 +240,135 @@ export default function Game() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-800 py-6 px-6 text-white">
-      {userStatus == "it" && (
-        <button
-          onClick={handleTag}
-          className="mt-6 mb-8 text-xl font-bold bg-red-500 text-white py-4 px-6 rounded-2xl hover:bg-red-600 shadow-lg transition-all duration-200"
-        >
-          🔔 Tag Someone
-        </button>
+    <>
+      {(!startDate || !endDate) && (
+        <div className="flex items-center justify-center min-h-screen bg-gray-800 text-white text-2xl">
+          Loading...
+        </div>
       )}
-      {tagToggler && (
-        <h1 className="text-2xl font-bold text-center mt-4 text-orange-500">
-          SELECT A PLAYER TO TAG
-        </h1>
-      )}
-      <div className="bg-gray-700 p-8 rounded-xl shadow-lg w-full max-w-2xl text-center mb-6">
-        <h2 className="text-2xl mb-4">Players in the Game</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {players.length > 0 ? (
-            players.map((player, index) => (
-              <div
-                key={index}
-                className={`rounded-xl px-4 py-3 text-lg font-semibold cursor-pointer transition duration-200 ${
-                  player.status === "it"
-                    ? "bg-red-500 text-white"
-                    : player.id === user?.uid
-                    ? "bg-green-500 text-white"
-                    : "bg-white text-black"
-                }`}
-                onClick={() => handlePlayerClick(index)}
+
+      {startDate && endDate && (
+        <>
+          {startDate > new Date() && (
+            <div className="flex flex-col items-center justify-center min-h-screen bg-gray-800 text-white text-2xl">
+              <div className="text-center">
+                Game will begin at{" "}
+                {startDate
+                  ? new Date(startDate).toLocaleString()
+                  : "Loading..."}
+              </div>
+              <button
+                onClick={handleLogout}
+                className="mt-6 bg-red-500 text-white py-2 px-6 rounded-md hover:bg-red-600 transition-colors"
               >
-                <div className="flex items-center justify-center gap-2">
-                  {player.name} {player.status === "it" && "🔥"}
+                Logout
+              </button>
+            </div>
+          )}
+
+          {startDate <= new Date() && new Date() <= endDate && (
+            <div className="flex flex-col items-center justify-center min-h-screen bg-gray-800 py-6 px-6 text-white">
+              {userStatus === "it" && (
+                <button
+                  onClick={handleTag}
+                  className="mt-6 mb-8 text-xl font-bold bg-red-500 text-white py-4 px-6 rounded-2xl hover:bg-red-600 shadow-lg transition-all duration-200"
+                >
+                  🔔 Tag Someone
+                </button>
+              )}
+
+              {tagToggler && (
+                <h1 className="text-2xl font-bold text-center mt-4 text-orange-500">
+                  SELECT A PLAYER TO TAG
+                </h1>
+              )}
+
+              <div className="bg-gray-700 p-8 rounded-xl shadow-lg w-full max-w-2xl text-center mb-6">
+                <h2 className="text-2xl mb-4">Players in the Game</h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {players.length > 0 ? (
+                    players.map((player, index) => (
+                      <div
+                        key={index}
+                        className={`rounded-xl px-4 py-3 text-lg font-semibold cursor-pointer transition duration-200 ${
+                          player.status === "it"
+                            ? "bg-red-500 text-white"
+                            : player.id === user?.uid
+                            ? "bg-green-500 text-white"
+                            : "bg-white text-black"
+                        }`}
+                        onClick={() => handlePlayerClick(index)}
+                      >
+                        <div className="flex items-center justify-center gap-2">
+                          {player.name} {player.status === "it" && "🔥"}
+                        </div>
+                        {openPlayerIndex === index && (
+                          <div className="mt-2 text-sm text-gray-700 bg-gray-100 rounded-md p-2">
+                            <p>
+                              <strong>Time It:</strong> {getTimeIt(index)}
+                            </p>
+                            <p>
+                              <strong>Times Caught:</strong>{" "}
+                              {player.timesCaught}
+                            </p>
+                          </div>
+                        )}
+                      </div>
+                    ))
+                  ) : (
+                    <p className="col-span-2 text-white">No players yet.</p>
+                  )}
                 </div>
-                {openPlayerIndex === index && (
-                  <div className="mt-2 text-sm text-gray-700 bg-gray-100 rounded-md p-2">
-                    <p>
-                      <strong>Time It:</strong> {getTimeIt(index)}
-                    </p>
-                    <p>
-                      <strong>Times Caught:</strong>{" "}
-                      {players[index].timesCaught}
-                    </p>
-                  </div>
+              </div>
+
+              <button
+                onClick={handleLogout}
+                className="mt-6 bg-red-500 text-white py-2 px-6 rounded-md hover:bg-red-600 transition-colors"
+              >
+                Logout
+              </button>
+            </div>
+          )}
+
+          {new Date() > endDate && (
+            <div className="flex flex-col items-center justify-center min-h-screen bg-gray-800 text-white text-2xl">
+              <div>Game is over</div>
+              <div className="w-full max-w-lg mx-auto bg-gray-700 p-6 rounded-xl shadow-lg">
+                {players.length > 0 ? (
+                  players.map((player, index) => (
+                    <div
+                      key={index}
+                      className="flex items-center justify-between mb-4 p-4 bg-gray-600 rounded-md hover:bg-gray-500 cursor-pointer transition-all"
+                    >
+                      <div className="flex items-center gap-3">
+                        <span className="font-semibold text-lg">
+                          {player.name}
+                        </span>
+                        {player.status === "it" && (
+                          <span className="text-red-500 font-bold">🔥</span>
+                        )}
+                      </div>
+                      <div className="text-sm text-gray-300">
+                        <div>Time It: {getTimeIt(index)}</div>
+                        <div>Times Caught: {player.timesCaught}</div>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <p className="text-center text-white">No players yet.</p>
                 )}
               </div>
-            ))
-          ) : (
-            <p className="col-span-2 text-white">No players yet.</p>
+
+              <button
+                onClick={handleLogout}
+                className="mt-6 bg-red-500 text-white py-2 px-6 rounded-md hover:bg-red-600 transition-colors"
+              >
+                Logout
+              </button>
+            </div>
           )}
-        </div>
-      </div>
-      {
-        <button
-          onClick={handleLogout}
-          className="mt-6 bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600"
-        >
-          Logout
-        </button>
-      }
-    </div>
+        </>
+      )}
+    </>
   );
 }

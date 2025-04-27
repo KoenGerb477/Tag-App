@@ -40,6 +40,8 @@ export default function Lobby() {
   const [players, setPlayers] = useState<Player[]>([]);
   const router = useRouter();
   const [startToggler, setStartToggler] = useState(false);
+  const [startDate, setStartDate] = useState<Date>();
+  const [endDate, setEndDate] = useState<Date>();
 
   useEffect(() => {
     const fetchPlayers = async () => {
@@ -101,7 +103,8 @@ export default function Lobby() {
     }
   };
 
-  const handleStartGame = async () => {
+  const handleStartGame = async (e: React.FormEvent) => {
+    e.preventDefault();
     setStartToggler(!startToggler);
   };
 
@@ -111,8 +114,8 @@ export default function Lobby() {
         `Are you sure you want to start the game with ${players[index].name} it?`
       );
 
-      if (confirmed) {
-        startGame(players, pin, index);
+      if (confirmed && startDate && endDate) {
+        startGame(players, pin, index, startDate, endDate);
         if (user) {
           await setUserGameStatus(user.uid, pin);
         }
@@ -138,16 +141,7 @@ export default function Lobby() {
         Welcome, {username || "User"}
       </h1>
 
-      <h1 className="text-2xl font-bold mb-4">
-        You`&apos;`re game pin is {pin}
-      </h1>
-
-      <button
-        onClick={handleLogout}
-        className="mt-4 bg-red-500 text-white py-2 px-6 rounded-md hover:bg-red-600 transition-colors"
-      >
-        Logout
-      </button>
+      <h1 className="text-2xl font-bold mb-4">Your game pin is {pin}</h1>
 
       {startToggler && (
         <h1 className="text-xl font-semibold text-center mt-6 text-orange-500">
@@ -173,12 +167,46 @@ export default function Lobby() {
           )}
         </ul>
       </div>
-
-      <button
-        onClick={handleStartGame}
-        className="w-full max-w-xs mt-6 p-4 bg-red-500 text-white rounded-md mb-4 hover:bg-red-600 transition-colors"
+      <form
+        onSubmit={handleStartGame}
+        className="w-full max-w-md bg-gray-700 p-8 rounded-xl shadow-lg mt-8"
       >
-        START GAME
+        <h2 className="text-2xl font-bold text-center mb-6">
+          Set Game Start and End Time
+        </h2>
+
+        <label className="block text-sm font-medium mb-2 text-gray-300">
+          Start Date and Time
+        </label>
+        <input
+          type="datetime-local"
+          required
+          onChange={(e) => setStartDate(new Date(e.target.value))}
+          className="w-full p-4 mb-6 rounded-md bg-gray-600 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-400"
+        />
+
+        <label className="block text-sm font-medium mb-2 text-gray-300">
+          End Date and Time
+        </label>
+        <input
+          type="datetime-local"
+          required
+          onChange={(e) => setEndDate(new Date(e.target.value))}
+          className="w-full p-4 mb-6 rounded-md bg-gray-600 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-400"
+        />
+
+        <button
+          type="submit"
+          className="w-full p-4 bg-red-500 hover:bg-red-600 text-white font-semibold rounded-md transition-colors"
+        >
+          START GAME
+        </button>
+      </form>
+      <button
+        onClick={handleLogout}
+        className="mt-4 bg-red-500 text-white py-2 px-6 rounded-md hover:bg-red-600 transition-colors"
+      >
+        Logout
       </button>
     </div>
   );

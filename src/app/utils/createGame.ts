@@ -22,6 +22,8 @@ export async function createGame() {
   await setDoc(gameRef, {
     createdAt: new Date(),
     isActive: false,
+    startDate: new Date(),
+    endDate: new Date(),
   });
 
   return pin;

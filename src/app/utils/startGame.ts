@@ -8,12 +8,15 @@ interface Player {
     status: string;
   }
   
-export async function startGame(players: Player[], pin: string, itIndex: number) {
+export async function startGame(players: Player[], pin: string, itIndex: number, startDate: Date, endDate: Date) {
     const gameRef = doc(db, "games", pin);
 
+    console.log(startDate, endDate)
     await updateDoc(gameRef, {
         isActive: true,
         currentIt: players[itIndex].id,
+        startDate: startDate,
+        endDate: endDate
     });
 
   const playerRef = doc(collection(gameRef, "players"), players[itIndex].id);
@@ -21,7 +24,7 @@ export async function startGame(players: Player[], pin: string, itIndex: number)
   await updateDoc(playerRef, {
     status: "it",
     timesCaught: 0,
-    timeCaught: 0,
+    timeCaught: startDate,
     timeIt: 0,
   });
 
@@ -29,6 +32,6 @@ export async function startGame(players: Player[], pin: string, itIndex: number)
 
   await updateDoc(usersRef, {
     status: "it",
-    timeCaught: new Date()
+    timeCaught: startDate
   });
 }
