@@ -1,6 +1,5 @@
 import { db } from "../firebase/firebase";
 import { collection, doc, setDoc, getDoc, updateDoc } from "firebase/firestore";
-import { Timestamp } from "firebase/firestore";
 
 export async function joinGame(pin: string, userId: string, username: string) {
   const gameRef = doc(db, "games", pin);
