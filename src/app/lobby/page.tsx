@@ -14,6 +14,7 @@ import {
 import { db } from "../firebase/firebase";
 import { signOut } from "firebase/auth";
 import { startGame } from "../utils/startGame";
+import { leaveGame } from "../utils/leaveGame";
 
 interface Player {
   id: string;
@@ -135,6 +136,17 @@ export default function Lobby() {
     }
   }
 
+  const handleLeave = async () => {
+    const confirmed = window.confirm(
+      `Are you sure you want to leave this game? You will not be able to rejoin.`
+    );
+
+    if (user && confirmed) {
+      leaveGame(pin, user?.uid);
+      router.push("/join");
+    }
+  };
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-800 py-6 px-6 text-white">
       <h1 className="text-4xl font-extrabold mb-4">
@@ -202,6 +214,12 @@ export default function Lobby() {
           START GAME
         </button>
       </form>
+      <button
+        onClick={handleLeave}
+        className="mt-6 bg-red-500 text-white py-2 px-6 rounded-md hover:bg-red-600 transition-colors"
+      >
+        Leave Game
+      </button>
       <button
         onClick={handleLogout}
         className="mt-4 bg-red-500 text-white py-2 px-6 rounded-md hover:bg-red-600 transition-colors"

@@ -39,28 +39,36 @@ export default function HomePage() {
   }, [user, router]);
 
   const handleSignUp = async () => {
-    const userCredential = await createUserWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
-    const user = userCredential.user;
-    // Create user document in Firestore
-    await setDoc(doc(db, "users", user.uid), {
-      name: username,
-      email: email,
-      inGame: false,
-      status: "not it",
-      timesCaught: 0,
-      timeCaught: 0,
-      timeIt: 0,
-      gamePin: "",
-    });
-    router.push("/join"); // Redirect to join page after successful sign up
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const user = userCredential.user;
+      // Create user document in Firestore
+      await setDoc(doc(db, "users", user.uid), {
+        name: username,
+        email: email,
+        inGame: false,
+        status: "not it",
+        timesCaught: 0,
+        timeCaught: 0,
+        timeIt: 0,
+        gamePin: "",
+      });
+      router.push("/join"); // Redirect to join page after successful sign up
+    } catch {
+      window.alert("Email is already in use.");
+    }
   };
 
   const handleSignIn = async () => {
-    await signInWithEmailAndPassword(auth, email, password); // Log in user with email and password
+    try {
+      await signInWithEmailAndPassword(auth, email, password); // Log in user with email and password
+    } catch {
+      window.alert("Incorrect email or password.");
+    }
   };
 
   return (

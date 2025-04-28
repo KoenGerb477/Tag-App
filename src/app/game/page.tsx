@@ -14,6 +14,7 @@ import {
 } from "firebase/firestore";
 import { db } from "../firebase/firebase";
 import { signOut } from "firebase/auth";
+import { leaveGame } from "../utils/leaveGame";
 
 interface Player {
   id: string;
@@ -239,6 +240,17 @@ export default function Game() {
     }
   };
 
+  const handleLeave = async () => {
+    const confirmed = window.confirm(
+      `Are you sure you want to leave this game? You will not be able to rejoin.`
+    );
+
+    if (user && confirmed) {
+      leaveGame(pin, user?.uid);
+      router.push("/join");
+    }
+  };
+
   return (
     <>
       {(!startDate || !endDate) && (
@@ -358,7 +370,12 @@ export default function Game() {
                   <p className="text-center text-white">No players yet.</p>
                 )}
               </div>
-
+              <button
+                onClick={handleLeave}
+                className="mt-6 bg-red-500 text-white py-2 px-6 rounded-md hover:bg-red-600 transition-colors"
+              >
+                Leave Game
+              </button>
               <button
                 onClick={handleLogout}
                 className="mt-6 bg-red-500 text-white py-2 px-6 rounded-md hover:bg-red-600 transition-colors"
