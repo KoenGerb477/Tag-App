@@ -25,12 +25,21 @@ export default function HomePage() {
       const checkUserGameStatus = async () => {
         const userRef = doc(db, "users", user.uid);
         const userDoc = await getDoc(userRef);
+
         if (userDoc.exists()) {
           const userData = userDoc.data();
-          if (userData.inGame) {
-            router.push(`/game`); // Redirect to the game page if the user is already in a game
-          } else {
-            router.push("/join"); // Otherwise, redirect to the join page
+
+          const gameRef = doc(db, "games", userData.gamePin);
+          const gameDoc = await getDoc(gameRef);
+
+          if (gameDoc.exists()) {
+            if (userData.inGame && gameDoc.data().isActive) {
+              router.push(`/game`); // Redirect to the game page if the user is already in a game
+            } else if (userData.inGame) {
+              router.push("/lobby"); // Otherwise, redirect to the lobby page
+            } else {
+              router.push("/join"); // Otherwise, redirect to the join page
+            }
           }
         }
       };
