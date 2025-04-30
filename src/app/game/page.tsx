@@ -242,7 +242,7 @@ export default function Game() {
 
   const handleLeave = async () => {
     const confirmed = window.confirm(
-      `Are you sure you want to leave this game? You will not be able to rejoin.`
+      `Are you sure you want to leave this game? You may not be able to rejoin.`
     );
 
     if (user && confirmed) {
@@ -269,6 +269,12 @@ export default function Game() {
                   ? new Date(startDate).toLocaleString()
                   : "Loading..."}
               </div>
+              <button
+                onClick={handleLeave}
+                className="mt-6 bg-red-500 text-white py-2 px-6 rounded-md hover:bg-red-600 transition-colors"
+              >
+                Leave Game
+              </button>
               <button
                 onClick={handleLogout}
                 className="mt-6 bg-red-500 text-white py-2 px-6 rounded-md hover:bg-red-600 transition-colors"
