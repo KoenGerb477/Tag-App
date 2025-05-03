@@ -338,7 +338,75 @@ export default function Game() {
                   )}
                 </div>
               </div>
+              <details className="bg-gray-700 text-white rounded-lg p-4 mb-6 w-full max-w-2xl">
+                <summary className="cursor-pointer font-semibold text-lg">
+                  Rules
+                </summary>
 
+                <div className="mt-2 text-left space-y-4">
+                  <p className="font-bold">Be Honest and Good Luck</p>
+                  <p className="font-bold">Rules:</p>
+                  <ol className="list-decimal list-inside space-y-1">
+                    <li>No tagbacks ever</li>
+                    <li>No Girls</li>
+                    <li>No Butthole shots</li>
+                    <li>Truces must be consented by all parties involved</li>
+                    <li>Watch out for Maddox and Hunter Spanking</li>
+                    <li>
+                      <span className="font-semibold">a)</span> No going into
+                      others' houses
+                      <br />
+                      <span className="font-semibold">b)</span> If a family
+                      member/roommate of the person lets you in, then you can go
+                      inside
+                      <br />
+                      <span className="font-semibold">c)</span> Same rules apply
+                      to backyards and general property
+                    </li>
+                    <li>
+                      <span className="font-semibold">a)</span> Message in group
+                      chat when you catch someone
+                      <br />
+                      <span className="font-semibold">b)</span> If you don't
+                      check, you snooze you lose
+                    </li>
+                    <li>
+                      <span className="font-semibold">a)</span> You must message
+                      who you catch as well
+                      <br />
+                      <span className="font-semibold">b)</span> If someone asks
+                      whether you are it or not, you must answer truthfully
+                    </li>
+                    <li>Don't let someone catch you (without trying)</li>
+                    <li>If a person is taking a test, they cannot be caught</li>
+                    <li>
+                      The council must agree on a rule before it is
+                      added/changed
+                    </li>
+                    <li>No hole catching</li>
+                    <li>
+                      Start date is May 1st at 12:00am, and finish date is May
+                      31st at 11:59pm
+                    </li>
+                    <li>
+                      Whoever is it on the final day of tag at 11:59pm is deemed
+                      the loser of the year and must start it when the next game
+                      starts
+                    </li>
+                    <li>Cap of 8 people (no more after this year)</li>
+                    <li>
+                      <span className="font-semibold">a)</span> If you vape, you
+                      are instantly it
+                      <br />
+                      <span className="font-semibold">b)</span> If the year is
+                      over, you are deemed the new loser and all punishments
+                      transfer over
+                    </li>
+                    <li>You can only catch someone with your hand</li>
+                    <li>Big Bonfire at the end of that year's tag</li>
+                  </ol>
+                </div>
+              </details>
               <button
                 onClick={handleLogout}
                 className="mt-6 bg-red-500 text-white py-2 px-6 rounded-md hover:bg-red-600 transition-colors"
