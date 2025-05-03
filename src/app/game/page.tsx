@@ -353,31 +353,31 @@ export default function Game() {
                     <li>Truces must be consented by all parties involved</li>
                     <li>Watch out for Maddox and Hunter Spanking</li>
                     <li>
-                      <span className="font-semibold">a)</span> No going into
+                      <span className="font-semibold">a:</span> No going into
                       others' houses
                       <br />
-                      <span className="font-semibold">b)</span> If a family
+                      <span className="font-semibold">b:</span> If a family
                       member/roommate of the person lets you in, then you can go
                       inside
                       <br />
-                      <span className="font-semibold">c)</span> Same rules apply
+                      <span className="font-semibold">c:</span> Same rules apply
                       to backyards and general property
                     </li>
                     <li>
-                      <span className="font-semibold">a)</span> Message in group
+                      <span className="font-semibold">a:</span> Message in group
                       chat when you catch someone
                       <br />
-                      <span className="font-semibold">b)</span> If you don't
+                      <span className="font-semibold">b:</span> If you don't
                       check, you snooze you lose
                     </li>
                     <li>
-                      <span className="font-semibold">a)</span> You must message
+                      <span className="font-semibold">a:</span> You must message
                       who you catch as well
                       <br />
-                      <span className="font-semibold">b)</span> If someone asks
+                      <span className="font-semibold">b:</span> If someone asks
                       whether you are it or not, you must answer truthfully
                     </li>
-                    <li>Don't let someone catch you (without trying)</li>
+                    <li>Don't let someone catch you without trying</li>
                     <li>If a person is taking a test, they cannot be caught</li>
                     <li>
                       The council must agree on a rule before it is
@@ -393,12 +393,12 @@ export default function Game() {
                       the loser of the year and must start it when the next game
                       starts
                     </li>
-                    <li>Cap of 8 people (no more after this year)</li>
+                    <li>Cap of 8 people; no more after this year</li>
                     <li>
-                      <span className="font-semibold">a)</span> If you vape, you
+                      <span className="font-semibold">a:</span> If you vape, you
                       are instantly it
                       <br />
-                      <span className="font-semibold">b)</span> If the year is
+                      <span className="font-semibold">b:</span> If the year is
                       over, you are deemed the new loser and all punishments
                       transfer over
                     </li>
