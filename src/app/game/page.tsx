@@ -354,7 +354,7 @@ export default function Game() {
                     <li>Watch out for Maddox and Hunter Spanking</li>
                     <li>
                       <span className="font-semibold">a:</span> No going into
-                      others' houses
+                      others&apos; houses
                       <br />
                       <span className="font-semibold">b:</span> If a family
                       member/roommate of the person lets you in, then you can go
@@ -367,8 +367,8 @@ export default function Game() {
                       <span className="font-semibold">a:</span> Message in group
                       chat when you catch someone
                       <br />
-                      <span className="font-semibold">b:</span> If you don't
-                      check, you snooze you lose
+                      <span className="font-semibold">b:</span> If you
+                      don&apos;t check, you snooze you lose
                     </li>
                     <li>
                       <span className="font-semibold">a:</span> You must message
@@ -377,7 +377,7 @@ export default function Game() {
                       <span className="font-semibold">b:</span> If someone asks
                       whether you are it or not, you must answer truthfully
                     </li>
-                    <li>Don't let someone catch you without trying</li>
+                    <li>Don&apos;t let someone catch you without trying</li>
                     <li>If a person is taking a test, they cannot be caught</li>
                     <li>
                       The council must agree on a rule before it is
@@ -403,10 +403,11 @@ export default function Game() {
                       transfer over
                     </li>
                     <li>You can only catch someone with your hand</li>
-                    <li>Big Bonfire at the end of that year's tag</li>
+                    <li>Big Bonfire at the end of that year&apos;s tag</li>
                   </ol>
                 </div>
               </details>
+
               <button
                 onClick={handleLogout}
                 className="mt-6 bg-red-500 text-white py-2 px-6 rounded-md hover:bg-red-600 transition-colors"
